@@ -19,7 +19,8 @@ fun ComicDetailScreen(
 ) {
     val comic = viewModel.comic.value
     val loading = viewModel.loading.value
-    if (comic == null && comicId != null) {
+    val hasError = viewModel.hasError.value
+    if (comic == null && comicId != null && !hasError) {
         viewModel.onTriggerEvent(ComicDetailEvent.GetComicDetailEvent(comicId))
     }
     ComicsTheme {

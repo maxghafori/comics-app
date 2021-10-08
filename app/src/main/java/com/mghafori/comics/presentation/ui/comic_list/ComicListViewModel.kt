@@ -21,6 +21,8 @@ constructor(
     val comic: MutableState<Comic?> = mutableStateOf(null)
     private val comicId: MutableState<Int> = mutableStateOf(0)
     val loading = mutableStateOf(false)
+    val query = mutableStateOf("")
+    val hasError = mutableStateOf(false)
 
     init {
         if (comic.value == null) {
@@ -44,18 +46,32 @@ constructor(
         }
     }
 
+    fun onQueryChanged(query: String) {
+        this.query.value = query
+    }
+
     private fun getCurrentComic() {
         getComic.execute(null).onEach { dataState ->
             loading.value = dataState.loading
-            comic.value = dataState.data
+            dataState.data?.let { data ->
+                comic.value = data
+            }
+            dataState.error?.let { error ->
+                hasError.value = true
+            }
         }.launchIn(viewModelScope)
     }
 
     private fun getNextComic() {
         getComic.execute(comicId = comicId.value + 1).onEach { dataState ->
             loading.value = dataState.loading
-            comic.value = dataState.data
-            comicId.value = comicId.value + 1
+            dataState.data?.let { data ->
+                comic.value = data
+                comicId.value = comicId.value + 1
+            }
+            dataState.error?.let { error ->
+                hasError.value = true
+            }
         }.launchIn(viewModelScope)
     }
 
@@ -63,8 +79,13 @@ constructor(
         if (comicId.value > 1) {
             getComic.execute(comicId = comicId.value - 1).onEach { dataState ->
                 loading.value = dataState.loading
-                comic.value = dataState.data
-                comicId.value = comicId.value - 1
+                dataState.data?.let { data ->
+                    comic.value = data
+                    comicId.value = comicId.value - 1
+                }
+                dataState.error?.let { error ->
+                    hasError.value = true
+                }
             }.launchIn(viewModelScope)
         }
 

@@ -5,6 +5,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mghafori.comics.model.Comic
 
@@ -13,7 +14,13 @@ fun ComicDetail(
     comic: Comic?
 ) {
     if (comic == null) {
-        Text(text = "Invalid Comic")
+        Text(
+            text = "Comic Not Available!",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            textAlign = TextAlign.Center
+        )
     } else {
         Column(
             modifier = Modifier

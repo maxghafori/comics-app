@@ -20,9 +20,16 @@ fun ComicListScreen(
 ) {
     val comic = viewModel.comic.value
     val loading = viewModel.loading.value
+    val query = viewModel.query.value
     ComicsTheme {
         Scaffold(
-            topBar = { SearchBar() }
+            topBar = {
+                SearchBar(
+                    query = query,
+                    onQueryChanged = viewModel::onQueryChanged,
+                    onNavigateToDetail = onNavigateToDetail
+                )
+            }
         ) {
             if (loading) {
                 Column(

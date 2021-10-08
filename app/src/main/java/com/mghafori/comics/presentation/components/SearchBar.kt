@@ -15,9 +15,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.mghafori.comics.presentation.navigation.Screen
 
 @Composable
-fun SearchBar() {
+fun SearchBar(
+    query: String,
+    onQueryChanged: (String) -> Unit,
+    onNavigateToDetail: (String) -> Unit,
+) {
     val focusManager = LocalFocusManager.current
     Surface(
         modifier = Modifier
@@ -33,16 +38,19 @@ fun SearchBar() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
-                value = "",
-                onValueChange = {},
-                label = { Text(text = "Search") },
+                value = query,
+                onValueChange = { onQueryChanged(it) },
+                label = { Text(text = "Type a number, see its comic") },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
+                    keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done,
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus(force = true)
+                        val route = Screen.ComicDetail.route + "/" + query
+                        onNavigateToDetail(route)
+                        onQueryChanged("")
                     },
                 ),
                 leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Search Icon") },

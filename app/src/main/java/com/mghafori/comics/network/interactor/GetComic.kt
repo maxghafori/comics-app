@@ -15,13 +15,17 @@ class GetComic(
     fun execute(
         comicId: Int?
     ): Flow<DataState<Comic>> = flow {
-        emit(DataState.loading())
-        if (comicId != null) {
-            val comic = getComicById(comicId)
-            emit(DataState.success(comic))
-        } else {
-            val comic = getCurrentComic()
-            emit(DataState.success(comic))
+        try {
+            emit(DataState.loading())
+            if (comicId != null) {
+                val comic = getComicById(comicId)
+                emit(DataState.success(comic))
+            } else {
+                val comic = getCurrentComic()
+                emit(DataState.success(comic))
+            }
+        } catch (e: Exception) {
+            emit(DataState.error<Comic>(e.message ?: "Unknown Error"))
         }
     }
 

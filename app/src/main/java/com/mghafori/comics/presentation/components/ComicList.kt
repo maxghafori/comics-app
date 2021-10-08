@@ -7,6 +7,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mghafori.comics.model.Comic
 import com.mghafori.comics.presentation.navigation.Screen
@@ -24,17 +25,22 @@ fun ComicList(
             .fillMaxHeight(),
         verticalArrangement = Arrangement.Center
     ) {
-        comic?.let {
+        if (comic == null) {
             Text(
-                text = it.title,
+                text = "Invalid Comic", modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                textAlign = TextAlign.Center
+            )
+        } else {
+            Text(
+                text = comic.title,
                 style = MaterialTheme.typography.h1,
                 modifier = Modifier
                     .padding(bottom = 20.dp)
                     .fillMaxWidth(),
             )
-        }
-        comic?.let {
-            ComicImage(imageUrl = it.img, modifier = Modifier
+            ComicImage(imageUrl = comic.img, modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp)
                 .clickable {
