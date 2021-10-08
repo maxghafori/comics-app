@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.mghafori.comics.presentation.components.ComicList
+import com.mghafori.comics.presentation.components.SearchBar
 import com.mghafori.comics.presentation.theme.ComicsTheme
 
 @Composable
@@ -20,7 +21,9 @@ fun ComicListScreen(
     val comic = viewModel.comic.value
     val loading = viewModel.loading.value
     ComicsTheme {
-        Scaffold {
+        Scaffold(
+            topBar = { SearchBar() }
+        ) {
             if (loading) {
                 Column(
                     modifier = Modifier
