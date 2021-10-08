@@ -23,6 +23,7 @@ fun ComicDetailScreen(
     val comic = viewModel.comic.value
     val loading = viewModel.loading.value
     val hasError = viewModel.hasError.value
+    val isFavorite = viewModel.isFavorite.value
     val context = LocalContext.current
 
     if (comic == null && comicId != null && !hasError) {
@@ -41,6 +42,14 @@ fun ComicDetailScreen(
                             }
                             val shareIntent = Intent.createChooser(sendIntent, null)
                             context.startActivity(shareIntent)
+                        }
+                    },
+                    isFavorite = isFavorite,
+                    onFavoriteClick = {
+                        if (comic != null) {
+                            viewModel.onTriggerEvent(
+                                ComicDetailEvent.FavoriteComicEvent(comic)
+                            )
                         }
                     }
                 )

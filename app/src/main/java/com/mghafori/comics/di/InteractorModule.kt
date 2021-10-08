@@ -1,5 +1,7 @@
 package com.mghafori.comics.di
 
+import com.mghafori.comics.cache.ComicDao
+import com.mghafori.comics.cache.model.ComicEntityMapper
 import com.mghafori.comics.network.ComicService
 import com.mghafori.comics.network.interactor.GetComic
 import com.mghafori.comics.network.model.ComicDtoMapper
@@ -18,10 +20,14 @@ object InteractorModule {
     fun provideGetComic(
         comicService: ComicService,
         comicDtoMapper: ComicDtoMapper,
+        comicDao: ComicDao,
+        entityMapper: ComicEntityMapper
     ): GetComic {
         return GetComic(
             comicService = comicService,
             comicDtoMapper = comicDtoMapper,
+            comicDao = comicDao,
+            entityMapper = entityMapper
         )
     }
 }
