@@ -1,6 +1,7 @@
 package com.mghafori.comics
 
 import com.google.gson.GsonBuilder
+import com.mghafori.comics.cache.model.ComicEntityMapper
 import com.mghafori.comics.model.Comic
 import com.mghafori.comics.network.ComicService
 import com.mghafori.comics.network.interactor.GetComic
@@ -11,10 +12,10 @@ import okhttp3.HttpUrl
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
 
 class GetComicTest {
@@ -22,7 +23,9 @@ class GetComicTest {
     private lateinit var mockWebServer: MockWebServer
     private lateinit var comicService: ComicService
     private lateinit var getComic: GetComic
+    private var comicDao = ComicDaoFake();
     private val comicDtoMapper = ComicDtoMapper()
+    private val entityMapper = ComicEntityMapper()
     private lateinit var baseUrl: HttpUrl
 
     @BeforeEach
@@ -39,7 +42,9 @@ class GetComicTest {
         // instantiate the system in test
         getComic = GetComic(
             comicService = comicService,
-            comicDtoMapper = comicDtoMapper
+            comicDtoMapper = comicDtoMapper,
+            comicDao = comicDao,
+            entityMapper = entityMapper
         )
     }
 
