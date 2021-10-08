@@ -20,6 +20,7 @@ constructor(
 ) : ViewModel() {
     val comic: MutableState<Comic?> = mutableStateOf(null)
     private val comicId: MutableState<Int> = mutableStateOf(0)
+    val loading = mutableStateOf(false)
 
     init {
         if (comic.value == null) {
@@ -44,22 +45,25 @@ constructor(
     }
 
     private fun getCurrentComic() {
-        getComic.execute(null).onEach {
-            comic.value = it
+        getComic.execute(null).onEach { dataState ->
+            loading.value = dataState.loading
+            comic.value = dataState.data
         }.launchIn(viewModelScope)
     }
 
     private fun getNextComic() {
-        getComic.execute(comicId = comicId.value + 1).onEach {
-            comic.value = it
+        getComic.execute(comicId = comicId.value + 1).onEach { dataState ->
+            loading.value = dataState.loading
+            comic.value = dataState.data
             comicId.value = comicId.value + 1
         }.launchIn(viewModelScope)
     }
 
     private fun getPreviousComic() {
         if (comicId.value > 1) {
-            getComic.execute(comicId = comicId.value - 1).onEach {
-                comic.value = it
+            getComic.execute(comicId = comicId.value - 1).onEach { dataState ->
+                loading.value = dataState.loading
+                comic.value = dataState.data
                 comicId.value = comicId.value - 1
             }.launchIn(viewModelScope)
         }

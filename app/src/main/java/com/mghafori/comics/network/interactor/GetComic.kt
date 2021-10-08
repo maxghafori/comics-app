@@ -1,6 +1,7 @@
 package com.mghafori.comics.network.interactor
 
 import com.mghafori.comics.model.Comic
+import com.mghafori.comics.model.DataState
 import com.mghafori.comics.network.ComicService
 import com.mghafori.comics.network.model.ComicDtoMapper
 import kotlinx.coroutines.flow.Flow
@@ -13,13 +14,14 @@ class GetComic(
 
     fun execute(
         comicId: Int?
-    ): Flow<Comic> = flow {
+    ): Flow<DataState<Comic>> = flow {
+        emit(DataState.loading())
         if (comicId != null) {
             val comic = getComicById(comicId)
-            emit(comic)
+            emit(DataState.success(comic))
         } else {
             val comic = getCurrentComic()
-            emit(comic)
+            emit(DataState.success(comic))
         }
     }
 

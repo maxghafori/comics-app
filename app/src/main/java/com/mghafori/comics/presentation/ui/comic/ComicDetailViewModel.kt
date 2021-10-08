@@ -19,6 +19,7 @@ constructor(
     private val getComic: GetComic
 ) : ViewModel() {
     val comic: MutableState<Comic?> = mutableStateOf(null)
+    val loading = mutableStateOf(false)
 
     fun onTriggerEvent(event: ComicDetailEvent) {
         viewModelScope.launch {
@@ -33,8 +34,9 @@ constructor(
     }
 
     private fun getComicDetail(comicId: Int) {
-        getComic.execute(comicId).onEach {
-            comic.value = it
+        getComic.execute(comicId).onEach { dataState ->
+            loading.value = dataState.loading
+            comic.value = dataState.data
         }.launchIn(viewModelScope)
     }
 
