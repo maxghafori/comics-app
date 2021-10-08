@@ -9,11 +9,16 @@ import com.mghafori.comics.presentation.theme.ComicsTheme
 @Composable
 fun ComicListScreen(
     onNavigateToDetail: (String) -> Unit,
+    viewModel: ComicListViewModel
 ) {
+    val comic = viewModel.comic.value
     ComicsTheme {
         Scaffold {
             ComicList(
-                onNavigateToDetail = onNavigateToDetail
+                comic = comic,
+                onNavigateToDetail = onNavigateToDetail,
+                onNextComic = { viewModel.onTriggerEvent(ComicListEvent.NextComicEvent) },
+                onPreviousComic = { viewModel.onTriggerEvent(ComicListEvent.PreviousComicEvent) }
             )
         }
     }
