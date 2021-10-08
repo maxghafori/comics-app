@@ -11,31 +11,36 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.ImageLoader
 import coil.request.ImageRequest
+import com.mghafori.comics.model.Comic
 import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun ComicDetail(
-    comicId: Int?
+    comic: Comic?
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(text = "Comic $comicId")
-        CoilImage(
-            imageRequest = ImageRequest.Builder(LocalContext.current)
-                .data("https://imgs.xkcd.com/comics/comet_visitor.png")
-                .crossfade(true)
-                .build(),
-            imageLoader = ImageLoader.Builder(LocalContext.current)
-                .availableMemoryPercentage(0.25)
-                .crossfade(true)
-                .build(),
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier.fillMaxWidth()
-        )
+    if (comic == null) {
+        Text(text = "Invalid Comic")
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = comic.title)
+            CoilImage(
+                imageRequest = ImageRequest.Builder(LocalContext.current)
+                    .data(comic.img)
+                    .crossfade(true)
+                    .build(),
+                imageLoader = ImageLoader.Builder(LocalContext.current)
+                    .availableMemoryPercentage(0.25)
+                    .crossfade(true)
+                    .build(),
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier.fillMaxWidth()
+            )
 
+        }
     }
 }

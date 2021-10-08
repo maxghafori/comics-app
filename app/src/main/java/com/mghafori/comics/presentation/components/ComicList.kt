@@ -42,7 +42,7 @@ fun ComicList(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                    val route = Screen.ComicDetail.route + "/2"
+                    val route = Screen.ComicDetail.route + "/" + comic!!.num
                     onNavigateToDetail(route)
                 }
         )

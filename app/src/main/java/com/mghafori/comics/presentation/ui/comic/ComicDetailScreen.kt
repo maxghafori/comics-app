@@ -7,12 +7,17 @@ import com.mghafori.comics.presentation.theme.ComicsTheme
 
 @Composable
 fun ComicDetailScreen(
-    comicId: Int?
+    comicId: Int?,
+    viewModel: ComicDetailViewModel
 ) {
+    val comic = viewModel.comic.value
+    if (comic == null && comicId != null) {
+        viewModel.onTriggerEvent(ComicDetailEvent.GetComicDetailEvent(comicId))
+    }
     ComicsTheme {
         Scaffold {
             ComicDetail(
-                comicId = comicId
+                comic = comic
             )
         }
     }

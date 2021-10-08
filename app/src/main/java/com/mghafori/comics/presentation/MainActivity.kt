@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mghafori.comics.presentation.navigation.Screen
 import com.mghafori.comics.presentation.ui.comic.ComicDetailScreen
+import com.mghafori.comics.presentation.ui.comic.ComicDetailViewModel
 import com.mghafori.comics.presentation.ui.comic_list.ComicListScreen
 import com.mghafori.comics.presentation.ui.comic_list.ComicListViewModel
 
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = Screen.ComicList.route) {
                 composable(route = Screen.ComicList.route) {
-                    val viewModel= viewModel<ComicListViewModel>()
+                    val viewModel = viewModel<ComicListViewModel>()
                     ComicListScreen(
                         onNavigateToDetail = navController::navigate,
                         viewModel = viewModel
@@ -33,8 +34,10 @@ class MainActivity : ComponentActivity() {
                         type = NavType.IntType
                     })
                 ) {
+                    val viewModel = viewModel<ComicDetailViewModel>()
                     ComicDetailScreen(
-                        comicId = it.arguments?.getInt("comicId")
+                        comicId = it.arguments?.getInt("comicId"),
+                        viewModel = viewModel
                     )
                 }
             }
