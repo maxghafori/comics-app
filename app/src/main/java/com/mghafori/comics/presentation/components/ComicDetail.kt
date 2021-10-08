@@ -40,6 +40,7 @@ fun ComicDetail(
                     .fillMaxWidth()
                     .height(300.dp)
             )
+            comic.transcript?.let { Text(text = it, modifier = Modifier.padding(10.dp)) }
 
         }
     }
