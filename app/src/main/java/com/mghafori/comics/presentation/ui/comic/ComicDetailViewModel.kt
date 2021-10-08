@@ -6,11 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mghafori.comics.model.Comic
 import com.mghafori.comics.network.interactor.GetComic
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ComicDetailViewModel : ViewModel() {
+@HiltViewModel
+class ComicDetailViewModel
+@Inject
+constructor(
+    private val getComic: GetComic
+) : ViewModel() {
     val comic: MutableState<Comic?> = mutableStateOf(null)
 
     fun onTriggerEvent(event: ComicDetailEvent) {
@@ -26,7 +33,6 @@ class ComicDetailViewModel : ViewModel() {
     }
 
     private fun getComicDetail(comicId: Int) {
-        val getComic = GetComic()
         getComic.execute(comicId).onEach {
             comic.value = it
         }.launchIn(viewModelScope)

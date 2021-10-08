@@ -6,11 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mghafori.comics.model.Comic
 import com.mghafori.comics.network.interactor.GetComic
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ComicListViewModel : ViewModel() {
+@HiltViewModel
+class ComicListViewModel
+@Inject
+constructor(
+    private val getComic: GetComic
+) : ViewModel() {
     val comic: MutableState<Comic?> = mutableStateOf(null)
     private val comicId: MutableState<Int> = mutableStateOf(0)
 
@@ -37,14 +44,12 @@ class ComicListViewModel : ViewModel() {
     }
 
     private fun getCurrentComic() {
-        val getComic = GetComic()
         getComic.execute(null).onEach {
             comic.value = it
         }.launchIn(viewModelScope)
     }
 
     private fun getNextComic() {
-        val getComic = GetComic()
         getComic.execute(comicId = comicId.value + 1).onEach {
             comic.value = it
             comicId.value = comicId.value + 1
@@ -53,7 +58,6 @@ class ComicListViewModel : ViewModel() {
 
     private fun getPreviousComic() {
         if (comicId.value > 1) {
-            val getComic = GetComic()
             getComic.execute(comicId = comicId.value - 1).onEach {
                 comic.value = it
                 comicId.value = comicId.value - 1

@@ -1,21 +1,15 @@
 package com.mghafori.comics.network.interactor
 
-import com.google.gson.GsonBuilder
 import com.mghafori.comics.model.Comic
 import com.mghafori.comics.network.ComicService
 import com.mghafori.comics.network.model.ComicDtoMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-class GetComic {
-    var comicDtoMapper: ComicDtoMapper = ComicDtoMapper();
-    var comicService: ComicService = Retrofit.Builder()
-        .baseUrl("https://xkcd.com")
-        .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-        .build()
-        .create(ComicService::class.java)
+class GetComic(
+    private val comicService: ComicService,
+    private val comicDtoMapper: ComicDtoMapper
+) {
 
     fun execute(
         comicId: Int?
