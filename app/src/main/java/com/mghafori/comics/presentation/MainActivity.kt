@@ -1,19 +1,15 @@
-package com.mghafori.comics
+package com.mghafori.comics.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import com.mghafori.comics.ui.theme.ComicsTheme
+import com.mghafori.comics.presentation.ui.comic_list.ComicListScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ComicsTheme {
-                Surface(color = MaterialTheme.colors.background) {}
-            }
+            ComicListScreen()
         }
     }
 }

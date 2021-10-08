@@ -1,4 +1,4 @@
-package com.mghafori.comics.ui.theme
+package com.mghafori.comics.presentation.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

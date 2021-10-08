@@ -1,4 +1,4 @@
-package com.mghafori.comics.ui.theme
+package com.mghafori.comics.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

@@ -1,4 +1,4 @@
-package com.mghafori.comics.ui.theme
+package com.mghafori.comics.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
