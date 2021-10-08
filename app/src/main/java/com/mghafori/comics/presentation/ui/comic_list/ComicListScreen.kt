@@ -7,10 +7,14 @@ import com.mghafori.comics.presentation.theme.ComicsTheme
 
 
 @Composable
-fun ComicListScreen() {
+fun ComicListScreen(
+    onNavigateToDetail: (String) -> Unit,
+) {
     ComicsTheme {
         Scaffold {
-            ComicList()
+            ComicList(
+                onNavigateToDetail = onNavigateToDetail
+            )
         }
     }
 }
